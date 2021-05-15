@@ -2,6 +2,7 @@
 using MasterChef.Infrastructure.Data.EntityConfigurations.API;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -44,6 +45,23 @@ namespace MasterChef.API.Controllers
             await context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] Categoria model)
+        {
+            try
+            {
+                context.Attach(model).State = EntityState.Modified;
+
+                await context.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return Ok();
+            }
         }
 
         [HttpDelete("{id}")]
