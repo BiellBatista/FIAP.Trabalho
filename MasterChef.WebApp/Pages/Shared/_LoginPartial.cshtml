@@ -5,9 +5,10 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-page="/ListReceitas">Listar Receitas</a>
-        </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-page="/ListReceitas">Listar Receitas</a>
+        <a class="nav-link text-dark" asp-area="" asp-page="/ListCategorias">Listar Categorias</a>
+    </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
         </li>

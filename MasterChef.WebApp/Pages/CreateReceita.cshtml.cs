@@ -1,6 +1,7 @@
 ﻿using MasterChef.Infrastructure.Data.EntityConfigurations.API;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,17 @@ namespace MasterChef.WebApp.Pages
             _context = context;
         }
 
-        public IEnumerable<string> Categorias { get; set; }
+        public IEnumerable<SelectListItem> Categorias { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
             var listCategorias = await _context.Categoria.ToListAsync();
 
-            Categorias = listCategorias.Select(c => c.Descricao);
+            Categorias = listCategorias.Select(u => new SelectListItem
+            {
+                Text = u.Descricao,
+                Value = u.Id.ToString()
+            });
 
             return Page();
         }

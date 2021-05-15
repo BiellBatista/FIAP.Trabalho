@@ -43,11 +43,11 @@
                 <input asp-for="Receita.Tags" class="form-control" />
                 <span asp-validation-for="Receita.Tags" class="text-danger"></span>
             </div>
-            <!--<div class="form-group">
-                <label asp-for="Receita.CategoriaDescricao" class="control-label">Categoria</label>-->
-                @*<select asp-for="Receita.CategoriaDescricao" asp-items="Model.Categorias"></select>*@
-                <!--<span asp-validation-for="Receita.CategoriaDescricao" class="text-danger"></span>
-            </div>-->
+            <div class="form-group">
+                <label asp-for="Receita.CategoriaId" class="control-label">Categoria</label>
+                <select asp-for="Receita.CategoriaId" asp-items="Model.Categorias"></select>
+                <span asp-validation-for="Receita.CategoriaId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
