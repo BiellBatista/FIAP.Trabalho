@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MasterChef.Infrastructure.Data;
 using MasterChef.Infrastructure.Data.EntityConfigurations.API;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace MasterChef.WebApp.Pages
 {
     public class EditReceitaModel : PageModel
     {
-        private readonly MasterChef.Infrastructure.Data.ApplicationDbContext _context;
+        private readonly HttpClient httpClient;
 
-        public EditReceitaModel(MasterChef.Infrastructure.Data.ApplicationDbContext context)
+        public EditReceitaModel(HttpClient httpClient)
         {
-            _context = context;
+            this.httpClient = httpClient;
         }
 
         [BindProperty]
@@ -30,14 +33,20 @@ namespace MasterChef.WebApp.Pages
                 return NotFound();
             }
 
-            Receita = await _context.Receita
-                .Include(r => r.Categoria).FirstOrDefaultAsync(m => m.Id == id);
+            HttpResponseMessage resultcategoria = await httpClient.GetAsync("http://localhost:5011/Categoria");
+            resultcategoria.EnsureSuccessStatusCode();
+            var listCategorias = await resultcategoria.Content.ReadAsAsync<IEnumerable<Categoria>>();
+
+            HttpResponseMessage result = await httpClient.GetAsync($"http://localhost:5011/Receita/{id}");
+            result.EnsureSuccessStatusCode();
+
+            Receita = await result.Content.ReadAsAsync<Receita>();
 
             if (Receita == null)
             {
                 return NotFound();
             }
-           ViewData["CategoriaId"] = new SelectList(_context.Categoria, "Id", "Descricao");
+            ViewData["CategoriaId"] = new SelectList(listCategorias, "Id", "Descricao");
             return Page();
         }
 
@@ -50,30 +59,13 @@ namespace MasterChef.WebApp.Pages
                 return Page();
             }
 
-            _context.Attach(Receita).State = EntityState.Modified;
+            var jsonContent = JsonConvert.SerializeObject(Receita);
+            var contentString = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            var resposta = await httpClient.PutAsync("http://localhost:5011/Rceeita", contentString);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ReceitaExists(Receita.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            resposta.EnsureSuccessStatusCode();
 
-            return RedirectToPage("./Index");
-        }
-
-        private bool ReceitaExists(int id)
-        {
-            return _context.Receita.Any(e => e.Id == id);
+            return RedirectToPage("./ListReceitas");
         }
     }
 }
