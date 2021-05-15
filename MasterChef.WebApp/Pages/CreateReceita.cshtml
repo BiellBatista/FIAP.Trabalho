@@ -1,0 +1,64 @@
+﻿@page
+@model MasterChef.WebApp.Pages.CreateReceitaModel
+
+@{
+    ViewData["Title"] = "CreateReceita";
+}
+
+<h1>CreateReceita</h1>
+
+<h4>Receita</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Receita.Titulo" class="control-label"></label>
+                <input asp-for="Receita.Titulo" class="form-control" />
+                <span asp-validation-for="Receita.Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.Descricao" class="control-label"></label>
+                <input asp-for="Receita.Descricao" class="form-control" />
+                <span asp-validation-for="Receita.Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.Ingredientes" class="control-label"></label>
+                <input asp-for="Receita.Ingredientes" class="form-control" />
+                <span asp-validation-for="Receita.Ingredientes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.ModoPreparo" class="control-label"></label>
+                <input asp-for="Receita.ModoPreparo" class="form-control" />
+                <span asp-validation-for="Receita.ModoPreparo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.Foto" class="control-label"></label>
+                <input asp-for="Receita.Foto" class="form-control" />
+                <span asp-validation-for="Receita.Foto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Receita.Tags" class="control-label"></label>
+                <input asp-for="Receita.Tags" class="form-control" />
+                <span asp-validation-for="Receita.Tags" class="text-danger"></span>
+            </div>
+            <!--<div class="form-group">
+                <label asp-for="Receita.CategoriaDescricao" class="control-label">Categoria</label>-->
+                @*<select asp-for="Receita.CategoriaDescricao" asp-items="Model.Categorias"></select>*@
+                <!--<span asp-validation-for="Receita.CategoriaDescricao" class="text-danger"></span>
+            </div>-->
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

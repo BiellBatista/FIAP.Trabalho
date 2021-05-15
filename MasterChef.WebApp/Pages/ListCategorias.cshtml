@@ -1,0 +1,42 @@
+﻿@page
+@model MasterChef.WebApp.Pages.ListCategoriasModel
+
+@{
+    ViewData["Title"] = "ListCategorias";
+}
+
+<h1>ListCategorias</h1>
+
+<p>
+    <a asp-page="./CreateCategoria">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Categoria[0].Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Categoria[0].Descricao)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Categoria) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                <a asp-page="./EditCategoria" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./DetailsCategoria" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./DeleteCategoria" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
