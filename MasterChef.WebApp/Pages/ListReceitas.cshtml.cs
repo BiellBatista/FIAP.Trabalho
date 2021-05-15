@@ -1,30 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using MasterChef.Infrastructure.Data.EntityConfigurations.API;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using MasterChef.Infrastructure.Data;
-using MasterChef.Infrastructure.Data.EntityConfigurations.API;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace MasterChef.WebApp.Pages
 {
     public class ListReceitasModel : PageModel
     {
-        private readonly MasterChef.Infrastructure.Data.ApplicationDbContext _context;
+        private readonly HttpClient httpClient;
 
-        public ListReceitasModel(MasterChef.Infrastructure.Data.ApplicationDbContext context)
+        public ListReceitasModel(HttpClient httpClient)
         {
-            _context = context;
+            this.httpClient = httpClient;
         }
 
-        public IList<Receita> Receita { get;set; }
+        public IList<Receita> Receita { get; set; }
 
         public async Task OnGetAsync()
         {
-            Receita = await _context.Receita
-                .Include(r => r.Categoria).ToListAsync();
+            HttpResponseMessage resposta = await httpClient.GetAsync("http://localhost:5011/Receita");
+            resposta.EnsureSuccessStatusCode();
+
+            Receita = await resposta.Content.ReadAsAsync<IList<Receita>>();
         }
     }
 }

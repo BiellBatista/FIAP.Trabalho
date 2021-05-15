@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MasterChef.Infrastructure.Data.EntityConfigurations.API;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using MasterChef.Infrastructure.Data;
-using MasterChef.Infrastructure.Data.EntityConfigurations.API;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MasterChef.WebApp.Pages
 {
     public class CreateCategoriaModel : PageModel
     {
-        private readonly MasterChef.Infrastructure.Data.ApplicationDbContext _context;
+        private readonly HttpClient httpClient;
 
-        public CreateCategoriaModel(MasterChef.Infrastructure.Data.ApplicationDbContext context)
+        public CreateCategoriaModel(HttpClient httpClient)
         {
-            _context = context;
+            this.httpClient = httpClient;
         }
 
         public IActionResult OnGet()
@@ -35,10 +33,12 @@ namespace MasterChef.WebApp.Pages
                 return Page();
             }
 
-            _context.Categoria.Add(Categoria);
-            await _context.SaveChangesAsync();
+            var jsonContent = JsonConvert.SerializeObject(Categoria);
+            var contentString = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            var resposta = await httpClient.PostAsync("http://localhost:5011/Categoria", contentString);
+            resposta.EnsureSuccessStatusCode();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./ListCategorias");
         }
     }
 }

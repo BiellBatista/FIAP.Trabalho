@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -34,10 +35,14 @@ namespace MasterChef.Infrastructure.Data.EntityConfigurations.API
 
     public class Categoria
     {
+        [JsonProperty]
         public virtual int Id { get; set; }
+        [JsonProperty]
         public virtual string Titulo { get; set; }
+        [JsonProperty]
         public virtual string Descricao { get; set; }
 
+        [JsonProperty]
         public virtual List<Receita> Receitas { get; set; }
     }
 }

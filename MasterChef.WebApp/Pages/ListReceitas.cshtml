@@ -8,7 +8,7 @@
 <h1>ListReceitas</h1>
 
 <p>
-    <a asp-page="CreateReceita">Create New</a>
+    <a asp-page="./CreateReceita">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -62,9 +62,9 @@
                 @Html.DisplayFor(modelItem => item.Categoria.Id)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./EditReceita" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./DetailsReceita" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./DeleteReceita" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

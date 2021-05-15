@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MasterChef.Infrastructure.Data.EntityConfigurations.API;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using MasterChef.Infrastructure.Data;
-using MasterChef.Infrastructure.Data.EntityConfigurations.API;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace MasterChef.WebApp.Pages
 {
     public class DeleteCategoriaModel : PageModel
     {
-        private readonly MasterChef.Infrastructure.Data.ApplicationDbContext _context;
+        private readonly HttpClient httpClient;
 
-        public DeleteCategoriaModel(MasterChef.Infrastructure.Data.ApplicationDbContext context)
+        public DeleteCategoriaModel(HttpClient httpClient)
         {
-            _context = context;
+            this.httpClient = httpClient;
         }
 
         [BindProperty]
@@ -29,12 +25,16 @@ namespace MasterChef.WebApp.Pages
                 return NotFound();
             }
 
-            Categoria = await _context.Categoria.FirstOrDefaultAsync(m => m.Id == id);
+            HttpResponseMessage resposta = await httpClient.GetAsync($"http://localhost:5011/Categoria/{id}");
+            resposta.EnsureSuccessStatusCode();
+
+            Categoria = await resposta.Content.ReadAsAsync<Categoria>();
 
             if (Categoria == null)
             {
                 return NotFound();
             }
+
             return Page();
         }
 
@@ -45,15 +45,10 @@ namespace MasterChef.WebApp.Pages
                 return NotFound();
             }
 
-            Categoria = await _context.Categoria.FindAsync(id);
+            HttpResponseMessage resposta = await httpClient.DeleteAsync($"http://localhost:5011/Categoria/{id}");
+            resposta.EnsureSuccessStatusCode();
 
-            if (Categoria != null)
-            {
-                _context.Categoria.Remove(Categoria);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage("./Index");
+            return RedirectToPage("./ListCategorias");
         }
     }
 }
