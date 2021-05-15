@@ -59,14 +59,13 @@
                 @Html.DisplayFor(modelItem => item.Tags)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Categoria.Id)
+                @Html.DisplayFor(modelItem => item.Categoria.Titulo)
             </td>
             <td>
                 <a asp-page="./EditReceita" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./DetailsReceita" asp-route-id="@item.Id">Details</a> |
                 <a asp-page="./DeleteReceita" asp-route-id="@item.Id">Delete</a>
             </td>
-        </tr>
-}
+        </tr>}
     </tbody>
 </table>

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MasterChef.Infrastructure.Data.EntityConfigurations.API
 {
@@ -62,15 +63,19 @@ namespace MasterChef.Infrastructure.Data.EntityConfigurations.API
         public virtual int Id { get; set; }
 
         [JsonProperty]
+        [Required]
         public virtual string Titulo { get; set; }
 
         [JsonProperty]
+        [Required]
         public virtual string Descricao { get; set; }
 
         [JsonProperty]
+        [Required]
         public virtual string Ingredientes { get; set; }
 
         [JsonProperty]
+        [Required]
         public virtual string ModoPreparo { get; set; }
 
         [JsonProperty]
@@ -80,6 +85,9 @@ namespace MasterChef.Infrastructure.Data.EntityConfigurations.API
         public virtual string Tags { get; set; }
 
         [JsonProperty]
+        [Required]
         public virtual Categoria Categoria { get; set; }
+
+        public virtual int CategoriaId { get; set; }
     }
 }
